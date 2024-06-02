@@ -28,7 +28,16 @@ SECRET_KEY = os.getenv('SECURITY_KEY', 'django-insecure-e_u@(z#b5$_7&&9l1lgi@6r5
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost",
+    "https://simplereminder.ai",
+    "http://simplereminder.ai",
+    "http://localhost:3000",
+    "http://13.50.228.249",
+]
 
 # Application definition
 
@@ -46,6 +55,7 @@ THIRD_PARTY_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'rest_framework.authtoken',
     'drf_yasg',
+    'corsheaders',
 ]
 
 CUSTOM_APPS = ['user', 'common', 'project', 'finance']
