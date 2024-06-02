@@ -12,7 +12,7 @@ class User(AbstractUser):
     province = models.CharField(max_length=120, blank=True)
     post_code = models.CharField(max_length=120, blank=True)
     country = models.CharField(max_length=120, blank=True)
-    profile_picture = models.ImageField(upload_to='profile_pictures', blank=True)
+    profile_picture = models.ForeignKey('common.Photo', on_delete=models.CASCADE, related_name="profile", null=True, blank=True)
 
     groups = models.ManyToManyField(
         Group,
@@ -69,30 +69,3 @@ class Company(models.Model):
 
     def __str__(self):
         return self.company_name
-
-
-class Gig(models.Model):
-    company = models.ForeignKey(Company, on_delete=models.CASCADE)
-    title = models.CharField(max_length=120)
-    description = models.TextField()
-    category = models.CharField(max_length=120)
-    sub_category = models.CharField(max_length=120)
-    requirements = models.JSONField()
-    budget = models.DecimalField(max_digits=10, decimal_places=2)
-    deadline = models.DateField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    documents = models.ManyToManyField('Document', related_name='documents', blank=True)
-
-    def __str__(self):
-        return self.title
-
-
-class Document(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    document = models.FileField(upload_to='documents')
-    description = models.TextField(blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.user.first_name + " " + self.user.last_name + " - " + self.document.name
