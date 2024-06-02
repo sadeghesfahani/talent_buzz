@@ -1,6 +1,10 @@
-from datetime import timedelta
+from datetime import timedelta, date
 
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+from finance.models import Invoice
 
 DOCUMENT_MODEL = 'common.Document'
 USER_MODEL = 'user.User'
@@ -32,14 +36,14 @@ class Project(models.Model):
 
 
 class Gig(models.Model):
-    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='project')
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='project_projects')
     title = models.CharField(max_length=100)
     description = models.TextField()
     text_requirements = models.TextField(blank=True)
     json_requirements = models.JSONField(blank=True, null=True)
     hours = models.IntegerField(blank=True, null=True)
     status = models.CharField(max_length=100, blank=True)
-    user = models.ForeignKey(COMPANY_MODEL, on_delete=models.CASCADE, null=True, blank=True, related_name='company')
+    user = models.ForeignKey(COMPANY_MODEL, on_delete=models.CASCADE, null=True, blank=True, related_name='project_users')
     documents = models.ManyToManyField(DOCUMENT_MODEL, related_name='gig_documents', blank=True)
     start = models.DateTimeField()
     end = models.DateTimeField()
@@ -98,3 +102,23 @@ class ProjectApplication(models.Model):
                                    related_name='freelancer_project_application')
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='project_application')
     status = models.IntegerField(choices=[(0, 'Pending'), (1, 'Accepted'), (2, 'Rejected')])
+
+
+@receiver(post_save, sender=GigReport)
+def create_invoice_on_gigreport_approved(sender, instance, **kwargs):
+    if instance.status == 'approved':
+        # Calculate amount based on hours spent and hourly rate of the gig
+        hours_spent = instance.hours_spent.total_seconds() / 3600  # Convert timedelta to hours
+        hourly_rate = instance.gig.project.hourly_rate
+        amount = hours_spent * hourly_rate
+
+        # Create the invoice
+        Invoice.objects.create(
+            company=instance.gig.user,
+            freelancer=instance.freelancer,
+            project=instance.gig.project,
+            gig=instance.gig,
+            amount=amount,
+            status='pending',
+            due_date=date.today() + timedelta(days=30)  # Example due date 30 days from now
+        )

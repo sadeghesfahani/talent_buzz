@@ -14,7 +14,8 @@ class User(AbstractUser):
     province = models.CharField(max_length=120, blank=True)
     post_code = models.CharField(max_length=120, blank=True)
     country = models.CharField(max_length=120, blank=True)
-    profile_picture = models.ForeignKey('common.Photo', on_delete=models.CASCADE, related_name="profile", null=True, blank=True)
+    profile_picture = models.ForeignKey('common.Photo', on_delete=models.CASCADE, related_name="profile", null=True,
+                                        blank=True)
 
     groups = models.ManyToManyField(
         Group,
@@ -73,13 +74,13 @@ class Freelancer(models.Model):
     availability = models.JSONField(blank=True, null=True)
     rating = models.DecimalField(max_digits=2, decimal_places=1, blank=True, null=True)
     total_earning = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
-    total_job = models.IntegerField(blank=True,null=True)
-    skill = models.JSONField(blank=True,null=True)
-    language = models.JSONField(blank=True,null=True)
-    experience = models.JSONField(blank=True,null=True)
-    education = models.JSONField(blank=True,null=True)
-    certification = models.JSONField(blank=True,null=True)
-    portfolio = models.JSONField(blank=True,null=True)
+    total_job = models.IntegerField(blank=True, null=True)
+    skill = models.JSONField(blank=True, null=True)
+    language = models.JSONField(blank=True, null=True)
+    experience = models.JSONField(blank=True, null=True)
+    education = models.JSONField(blank=True, null=True)
+    certification = models.JSONField(blank=True, null=True)
+    portfolio = models.JSONField(blank=True, null=True)
 
     def __str__(self):
         return self.user.first_name + " " + self.user.last_name
@@ -95,10 +96,10 @@ class Company(models.Model):
     company_size = models.CharField(max_length=120, blank=True)
     company_industry = models.CharField(max_length=120, blank=True)
     company_type = models.CharField(max_length=120, blank=True)
-    company_founded = models.DateField(blank=True)
+    company_founded = models.DateField(blank=True, null=True)
     company_location = models.CharField(max_length=120, blank=True)
-    company_specialities = models.JSONField(blank=True)
-    company_social_media = models.JSONField(blank=True)
+    company_specialities = models.JSONField(blank=True, null=True)
+    company_social_media = models.JSONField(blank=True, null=True)
 
     def __str__(self):
         return self.company_name

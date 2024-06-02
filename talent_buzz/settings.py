@@ -10,9 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
-from pathlib import Path
 import datetime
 import os
+from pathlib import Path
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -22,7 +23,7 @@ GOOGLE_OAUTH_CLIENT_SECRET = os.getenv('GOOGLE_OAUTH_CLIENT_SECRET')
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECURITY_KEY','django-insecure-e_u@(z#b5$_7&&9l1lgi@6r5qz&(l&_^x4r=f#c%e(_4*#-_c8')
+SECRET_KEY = os.getenv('SECURITY_KEY', 'django-insecure-e_u@(z#b5$_7&&9l1lgi@6r5qz&(l&_^x4r=f#c%e(_4*#-_c8')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -31,15 +32,23 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-DJANGO_APPS = ['django.contrib.admin',
-               'django.contrib.auth',
-               'django.contrib.contenttypes',
-               'django.contrib.sessions',
-               'django.contrib.messages',
-               'django.contrib.staticfiles', ]
-THIRD_PARTY_APPS = ['rest_framework',
-                    'rest_framework_simplejwt.token_blacklist', 'rest_framework.authtoken', 'drf_yasg', ]
-CUSTOM_APPS = ['user', 'common', 'project']
+DJANGO_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles'
+]
+
+THIRD_PARTY_APPS = [
+    'rest_framework',
+    'rest_framework_simplejwt.token_blacklist',
+    'rest_framework.authtoken',
+    'drf_yasg',
+]
+
+CUSTOM_APPS = ['user', 'common', 'project', 'finance']
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + CUSTOM_APPS
 
 MIDDLEWARE = [
@@ -168,7 +177,6 @@ SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer',),
 }
 
-
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
         # For each OAuth based provider, either add a ``SocialApp``
@@ -191,7 +199,6 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
-
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
@@ -199,6 +206,3 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'sina@omnitechs.nl'
 EMAIL_HOST_PASSWORD = 'fwvw nozj zycn vxiu'
 PLATFORM_DOMAIN = "omnitechs.nl"
-
-
-
