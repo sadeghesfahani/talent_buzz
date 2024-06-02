@@ -29,7 +29,10 @@ class GigViewSet(viewsets.ModelViewSet):
     @staticmethod
     def annotate_gigs_with_accepted_freelancers_count():
         return Gig.objects.annotate(
-            accepted_freelancers_count=Count('freelancers', filter=Q(freelancers__gigapplication__status=1)))
+            accepted_freelancers_count=Count('applications', filter=Q(applications__status=1))
+        )
+        # return Gig.objects.annotate(
+        #     accepted_freelancers_count=Count('applications', filter=Q(freelancers__applications__status=1)))
 
     @staticmethod
     def filter_gigs_by_freelancers_count(gigs):
@@ -38,7 +41,7 @@ class GigViewSet(viewsets.ModelViewSet):
 
     @staticmethod
     def exclude_gigs_with_user_application(gigs, user):
-        return gigs.exclude(gig_application__freelancer__user=user)
+        return gigs.exclude(applications__freelancer__user=user)
 
 
 class GigReportViewSet(viewsets.ModelViewSet):

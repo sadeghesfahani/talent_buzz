@@ -89,7 +89,7 @@ class ProjectReport(models.Model):
 
 class GigApplication(models.Model):
     freelancer = models.ForeignKey(FREELANCER_MODEL, on_delete=models.CASCADE, related_name='freelancer_application')
-    gig = models.ForeignKey(Gig, on_delete=models.CASCADE, related_name='gig_application')
+    gig = models.ForeignKey(Gig, on_delete=models.CASCADE, related_name='applications')
     status = models.IntegerField(choices=[(0, 'Pending'), (1, 'Accepted'), (2, 'Rejected')])
     created_at = models.DateTimeField(auto_now_add=True)
 
