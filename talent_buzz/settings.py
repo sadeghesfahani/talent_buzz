@@ -34,7 +34,8 @@ DJANGO_APPS = ['django.contrib.admin',
                'django.contrib.sessions',
                'django.contrib.messages',
                'django.contrib.staticfiles', ]
-THIRD_PARTY_APPS = []
+THIRD_PARTY_APPS = ['rest_framework',
+                    'rest_framework_simplejwt.token_blacklist', 'rest_framework.authtoken','drf_yasg', ]
 CUSTOM_APPS = ['user', 'common', 'project']
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + CUSTOM_APPS
 
@@ -46,6 +47,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'talent_buzz.urls'
