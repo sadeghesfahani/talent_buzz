@@ -44,6 +44,8 @@ class Gig(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     reports = models.ManyToManyField(DOCUMENT_MODEL, related_name='gig_reports', blank=True)
+    freelancers = models.ManyToManyField(FREELANCER_MODEL, related_name='gig_freelancers', blank=True)
+    number_of_freelancers = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return self.title
