@@ -198,6 +198,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'sina@omnitechs.nl'
 EMAIL_HOST_PASSWORD = 'fwvw nozj zycn vxiu'
+PLATFORM_DOMAIN = "omnitechs.nl"
 
 
 
