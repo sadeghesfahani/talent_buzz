@@ -22,7 +22,7 @@ GOOGLE_OAUTH_CLIENT_SECRET = os.getenv('GOOGLE_OAUTH_CLIENT_SECRET')
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-e_u@(z#b5$_7&&9l1lgi@6r5qz&(l&_^x4r=f#c%e(_4*#-_c8'
+SECRET_KEY = os.getenv('SECURITY_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
