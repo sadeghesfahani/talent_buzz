@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.admin import DateFieldListFilter
 
 from .models import Gig, Project, ProjectReport, GigReport, GigApplication, ProjectApplication
 
@@ -6,7 +7,6 @@ from .models import Gig, Project, ProjectReport, GigReport, GigApplication, Proj
 admin.site.register(Gig)
 admin.site.register(Project)
 admin.site.register(ProjectReport)
-admin.site.register(GigApplication)
 admin.site.register(ProjectApplication)
 
 
@@ -25,4 +25,10 @@ class GigReportAdmin(admin.ModelAdmin):
     hours_spent.short_description = 'Hours Spent'
 
 
+class GigApplicationAdmin(admin.ModelAdmin):
+    list_display = ('freelancer', 'gig', 'status', 'created_at')
+    list_filter = ('status',('created_at', DateFieldListFilter))
+
+
+admin.site.register(GigApplication, GigApplicationAdmin)
 admin.site.register(GigReport, GigReportAdmin)

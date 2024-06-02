@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from django.db import models
 
 DOCUMENT_MODEL = 'common.Document'
@@ -67,7 +69,9 @@ class GigReport(models.Model):
 
     @property
     def hours_spent(self):
-        return self.end_time - self.start_time
+        if self.start_time and self.end_time:
+            return self.end_time - self.start_time
+        return timedelta(0)  # Return zero if either start_time or end_time is None
 
 
 class ProjectReport(models.Model):
@@ -84,6 +88,9 @@ class GigApplication(models.Model):
     gig = models.ForeignKey(Gig, on_delete=models.CASCADE, related_name='gig_application')
     status = models.IntegerField(choices=[(0, 'Pending'), (1, 'Accepted'), (2, 'Rejected')])
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.freelancer.user.first_name} applied for {self.gig}'
 
 
 class ProjectApplication(models.Model):
