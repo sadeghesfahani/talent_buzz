@@ -70,16 +70,16 @@ class User(AbstractUser):
 class Freelancer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     hourly_rate = models.DecimalField(max_digits=10, decimal_places=2, blank=True)
-    availability = models.JSONField(blank=True)
-    rating = models.DecimalField(max_digits=2, decimal_places=1, blank=True)
-    total_earning = models.DecimalField(max_digits=10, decimal_places=2, blank=True)
-    total_job = models.IntegerField(blank=True)
-    skill = models.JSONField(blank=True)
-    language = models.JSONField(blank=True)
-    experience = models.JSONField(blank=True)
-    education = models.JSONField(blank=True)
-    certification = models.JSONField(blank=True)
-    portfolio = models.JSONField(blank=True)
+    availability = models.JSONField(blank=True, null=True)
+    rating = models.DecimalField(max_digits=2, decimal_places=1, blank=True, null=True)
+    total_earning = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    total_job = models.IntegerField(blank=True,null=True)
+    skill = models.JSONField(blank=True,null=True)
+    language = models.JSONField(blank=True,null=True)
+    experience = models.JSONField(blank=True,null=True)
+    education = models.JSONField(blank=True,null=True)
+    certification = models.JSONField(blank=True,null=True)
+    portfolio = models.JSONField(blank=True,null=True)
 
     def __str__(self):
         return self.user.first_name + " " + self.user.last_name
