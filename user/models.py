@@ -1,5 +1,7 @@
 from django.contrib.auth.models import AbstractUser, Group, Permission
+from django.core.mail import EmailMultiAlternatives
 from django.db import models
+from django.template.loader import render_to_string
 
 
 # Create your models here.
@@ -29,6 +31,37 @@ class User(AbstractUser):
         help_text='Specific permissions for this user.',
         verbose_name='user permissions',
     )
+
+    def send_activation_email(self, uidb64, token):
+        # Construct the activation link
+        activation_link = f"http://simplereminder.ai/activate/{uidb64}/{token}/"
+
+        # Send the email
+        subject = "Activate your account"
+        # message = f"Click the following link to activate your account: {activation_link}"
+        # from_email = "noreply@yourdomain.com"
+        #
+        # send_mail(subject, message, from_email, [self.email], fail_silently=False)
+        # subject = 'Activate Your Account'
+        template_name = 'email.html'
+        context = {
+            'activation_link': activation_link
+        }
+        message = render_to_string(template_name, context)
+
+        email = EmailMultiAlternatives(
+            subject,
+            "activation",
+            'sadeghesfahani.sina@gmail.com',
+            [self.email]
+        )
+
+        # Attach HTML content
+        email.attach_alternative(message, "text/html")
+
+        # Send the email
+        email.send()
+        # send_mail(subject, message, 'sadeghesfahani.sina@gmail.com', [self.email])
 
     def __str__(self):
         return self.first_name + " " + self.last_name + self.username

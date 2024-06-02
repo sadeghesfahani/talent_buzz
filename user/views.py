@@ -40,6 +40,7 @@ class UserCreateView(generics.CreateAPIView):
     serializer_class = UserSerializer
 
     def perform_create(self, serializer):
+        print(serializer.__dict__)
         # Save the user with a hashed password instead of a plain one
         password = self.request.data['password']
         instance = serializer.save(is_active=False)
