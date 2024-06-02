@@ -14,7 +14,9 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from talent_buzz.settings import PLATFORM_DOMAIN
-from .serializers import UserSerializer, PasswordResetSerializer, SetPasswordSerializer
+from .models import Freelancer, Company
+from .serializers import UserSerializer, PasswordResetSerializer, SetPasswordSerializer, FreelancerSerializer, \
+    CompanySerializer
 
 logger = logging.getLogger(__name__)
 
@@ -320,3 +322,20 @@ class GetUserIdView(APIView):
         user = request.user
         user_id = user.id
         return Response({'user_id': user_id})
+
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
+
+class FreelancerViewSet(viewsets.ModelViewSet):
+    queryset = Freelancer.objects.all()
+    serializer_class = FreelancerSerializer
+    permission_classes = [IsAuthenticated]
+
+class CompanyViewSet(viewsets.ModelViewSet):
+    queryset = Company.objects.all()
+    serializer_class = CompanySerializer
+    permission_classes = [IsAuthenticated]

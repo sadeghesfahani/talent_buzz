@@ -1,8 +1,14 @@
 from django.urls import path, include
+from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from .views import UserCreateView, UserEditView, PasswordResetView, SetPasswordView, ActivateAccountView, \
-    GoogleLoginView, FacebookLoginView, GetUserIdView
+    GoogleLoginView, FacebookLoginView, GetUserIdView, UserViewSet, FreelancerViewSet, CompanyViewSet
+
+router = DefaultRouter()
+router.register(r'users', UserViewSet)
+router.register(r'freelancers', FreelancerViewSet)
+router.register(r'companies', CompanyViewSet)
 
 urlpatterns = [
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
@@ -18,6 +24,7 @@ urlpatterns = [
     path('dj-rest-auth/facebook/', FacebookLoginView.as_view({"post": "login_or_signup"})),
 
     path('user-id/', GetUserIdView.as_view(), name='get-user-id'),
+    path('', include(router.urls)),
     # path('accounts/', include('allauth.urls')),
     # path('dj-rest-auth/jwt/create/', JWTCookieAuthentication.as_view(), name='jwt-create'),
 ]
