@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from user.serializers import CompanySerializer
 from .models import Project, Gig, GigReport, ProjectReport, GigApplication, ProjectApplication
 
 
@@ -10,6 +11,9 @@ class ProjectSerializer(serializers.ModelSerializer):
 
 
 class GigSerializer(serializers.ModelSerializer):
+    project = ProjectSerializer(read_only=True)
+    user = CompanySerializer(read_only=True)
+
     class Meta:
         model = Gig
         fields = '__all__'

@@ -31,8 +31,6 @@ class GigViewSet(viewsets.ModelViewSet):
         return Gig.objects.annotate(
             accepted_freelancers_count=Count('applications', filter=Q(applications__status=1))
         )
-        # return Gig.objects.annotate(
-        #     accepted_freelancers_count=Count('applications', filter=Q(freelancers__applications__status=1)))
 
     @staticmethod
     def filter_gigs_by_freelancers_count(gigs):
